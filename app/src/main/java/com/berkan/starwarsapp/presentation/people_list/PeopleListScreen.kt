@@ -27,7 +27,7 @@ fun PeopleListScreen(
     navController: NavController,
     viewModel: PeopleListViewModel = hiltViewModel()
 ) {
-    val people = viewModel.getPeople().collectAsLazyPagingItems()
+    val people = viewModel.people.collectAsLazyPagingItems()
 
     Box(
         modifier = Modifier.fillMaxSize(),
@@ -53,9 +53,17 @@ fun PeopleListScreen(
                 }
             }
 
+            if (people.loadState.append == LoadState.Loading) {
+                item {
+                    LoadingItem()
+                }
+            }
+
             when (val state = people.loadState.refresh) {
                 is LoadState.Loading -> {
-                    item { LoadingItem() }
+                    item {
+                        LoadingItem()
+                    }
                 }
                 is LoadState.Error -> {
                     item {

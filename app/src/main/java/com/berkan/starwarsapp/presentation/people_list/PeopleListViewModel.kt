@@ -12,5 +12,6 @@ class PeopleListViewModel @Inject constructor(
     private val repository: StarWarsRepository
 ) : ViewModel() {
 
-    fun getPeople() = repository.getPeople().cachedIn(viewModelScope)
+    val people = repository.getPeople().cachedIn(viewModelScope)
+
 }

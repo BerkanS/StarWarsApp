@@ -12,10 +12,7 @@ class PeoplePagingSource(
 ) : PagingSource<Int, Person>() {
 
     override fun getRefreshKey(state: PagingState<Int, Person>): Int? {
-        return state.anchorPosition?.let { anchorPosition ->
-            state.closestPageToPosition(anchorPosition)?.prevKey?.plus(1) ?:
-            state.closestPageToPosition(anchorPosition)?.nextKey?.minus(1)
-        }
+        return state.anchorPosition
     }
 
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Person> {
@@ -25,8 +22,8 @@ class PeoplePagingSource(
             val people = starWarsApi.getPeople(page = pageIndex).people
             LoadResult.Page(
                 data = people,
-                prevKey = if (pageIndex == 1) null else pageIndex.minus(1),
-                nextKey = if (people.isEmpty()) null else pageIndex.plus(1)
+                prevKey = if (pageIndex == 1) null else pageIndex - 1,
+                nextKey = if (people.isEmpty()) null else pageIndex + 1
             )
 
         } catch (e: Exception) {
