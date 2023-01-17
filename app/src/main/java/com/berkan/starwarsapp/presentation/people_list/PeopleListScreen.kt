@@ -9,23 +9,25 @@ import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.paging.LoadState
 import androidx.paging.compose.collectAsLazyPagingItems
 import androidx.paging.compose.items
+import com.berkan.starwarsapp.R
 import com.berkan.starwarsapp.domain.model.ListType
 import com.berkan.starwarsapp.domain.model.Person
 import com.berkan.starwarsapp.domain.model.toJson
 import com.berkan.starwarsapp.presentation.util.Screen
-
-private const val DEFAULT_ERROR = "Something went wrong.."
 
 @Composable
 fun PeopleListScreen(
@@ -40,6 +42,12 @@ fun PeopleListScreen(
         modifier = Modifier.fillMaxSize(),
     ) {
 
+        if (listType == ListType.FAVORITES && favoritePeople.value.isEmpty()) {
+            Text(
+                text = stringResource(id = R.string.empty_state_favorites),
+                modifier = Modifier.align(Alignment.Center))
+        }
+
         LazyColumn {
             when (listType) {
                 ListType.ALL -> {
@@ -52,9 +60,13 @@ fun PeopleListScreen(
                                             "?person=${personJson}"
                                 )
                             },
-                            onFavoriteClick = {
+                            onFavorite = {
                                 viewModel.favoritePerson(it)
-                            }
+                            },
+                            onUnfavorite = {
+                                viewModel.unfavoritePerson(it)
+                            },
+                            isFavorite = favoritePeople.value.contains(person)
                         )
                     }
 
@@ -73,7 +85,8 @@ fun PeopleListScreen(
                         is LoadState.Error -> {
                             item {
                                 Text(
-                                    text = state.error.message ?: DEFAULT_ERROR
+                                    text = state.error.message
+                                        ?: stringResource(id = R.string.default_error)
                                 )
                             }
                         }
@@ -90,9 +103,13 @@ fun PeopleListScreen(
                                             "?person=${personJson}"
                                 )
                             },
-                            onFavoriteClick = {
+                            onFavorite = {
+                                viewModel.favoritePerson(it)
+                            },
+                            onUnfavorite = {
                                 viewModel.unfavoritePerson(it)
-                            }
+                            },
+                            isFavorite = favoritePeople.value.contains(person)
                         )
                     }
                 }
@@ -101,11 +118,14 @@ fun PeopleListScreen(
     }
 }
 
+
 @Composable
 fun PersonItem(
     person: Person?,
     onItemClick: (json: String) -> Unit,
-    onFavoriteClick: (person: Person) -> Unit
+    onFavorite: (person: Person) -> Unit,
+    onUnfavorite: (person: Person) -> Unit,
+    isFavorite: Boolean
 ) {
     person?.let {
         Row(
@@ -124,12 +144,13 @@ fun PersonItem(
             )
             IconButton(
                 onClick = {
-                    onFavoriteClick(it)
+                    if (isFavorite) onUnfavorite(it) else onFavorite(it)
                 }
             ) {
                 Icon(
-                    Icons.Default.FavoriteBorder, null,
+                    if (isFavorite) Icons.Default.Favorite else Icons.Default.FavoriteBorder, null,
                     modifier = Modifier.wrapContentWidth(),
+                    tint = Color.Red
                 )
             }
         }

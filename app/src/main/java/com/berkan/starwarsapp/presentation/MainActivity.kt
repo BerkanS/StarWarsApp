@@ -10,12 +10,14 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import com.berkan.starwarsapp.R
 import com.berkan.starwarsapp.domain.model.ListType
 import com.berkan.starwarsapp.presentation.people_detail.PeopleDetailScreen
 import com.berkan.starwarsapp.presentation.people_list.PeopleListScreen
@@ -80,7 +82,7 @@ fun TopAppBar(
     TopAppBar(
         title = {
             Text(
-                text = "Star Wars People"
+                text = stringResource(id = R.string.app_bar_title)
             )
         },
         actions = {

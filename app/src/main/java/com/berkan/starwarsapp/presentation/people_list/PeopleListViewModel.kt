@@ -4,8 +4,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asFlow
 import androidx.lifecycle.viewModelScope
 import androidx.paging.cachedIn
+import com.berkan.starwarsapp.data.repository.StarWarsRepository
 import com.berkan.starwarsapp.domain.model.Person
-import com.berkan.starwarsapp.domain.repository.StarWarsRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -16,7 +16,6 @@ class PeopleListViewModel @Inject constructor(
     private val repository: StarWarsRepository
 ) : ViewModel() {
     val people = repository.getPeople().cachedIn(viewModelScope)
-
     val favoritePeople = repository.getFavoritePeople().asFlow()
 
     fun favoritePerson(person: Person) {
