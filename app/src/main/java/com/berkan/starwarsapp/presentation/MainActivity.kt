@@ -5,12 +5,14 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.size
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.dp
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -92,7 +94,11 @@ fun TopAppBar(
                         expanded = true
                     }
                 ) {
-                    Icon(Icons.Default.Menu, null)
+                    Icon(
+                        Icons.Default.Menu,
+                        null,
+                        modifier = Modifier.size(30.dp),
+                    )
                 }
 
                 DropdownMenu(
