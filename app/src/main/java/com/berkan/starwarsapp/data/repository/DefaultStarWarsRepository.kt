@@ -1,22 +1,23 @@
 package com.berkan.starwarsapp.data.repository
 
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
+import com.berkan.starwarsapp.data.PeoplePagingSource
 import com.berkan.starwarsapp.data.remote.StarWarsApi
-import com.berkan.starwarsapp.domain.model.Person
 import com.berkan.starwarsapp.domain.repository.StarWarsRepository
-import com.berkan.starwarsapp.domain.util.Resource
 import javax.inject.Inject
+
+private const val NETWORK_PAGE_SIZE = 10
 
 class DefaultStarWarsRepository @Inject constructor(
     private val starWarsApi: StarWarsApi
 ) : StarWarsRepository {
-    override suspend fun getPeople(): Resource<List<Person>> {
-        return try {
-            Resource.Success(
-                data = starWarsApi.getPeople().people
-            )
-        } catch (e: Exception) {
-            e.printStackTrace()
-            return Resource.Error(e.message ?: "Unknown error occurred.")
+    override fun getPeople() = Pager(
+        config = PagingConfig(
+            pageSize = NETWORK_PAGE_SIZE
+        ),
+        pagingSourceFactory = {
+            PeoplePagingSource(starWarsApi)
         }
-    }
+    ).flow
 }

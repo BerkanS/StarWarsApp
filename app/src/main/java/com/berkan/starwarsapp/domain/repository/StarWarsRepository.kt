@@ -1,8 +1,9 @@
 package com.berkan.starwarsapp.domain.repository
 
+import androidx.paging.PagingData
 import com.berkan.starwarsapp.domain.model.Person
-import com.berkan.starwarsapp.domain.util.Resource
+import kotlinx.coroutines.flow.Flow
 
 interface StarWarsRepository {
-    suspend fun getPeople(): Resource<List<Person>>
+    fun getPeople(): Flow<PagingData<Person>>
 }

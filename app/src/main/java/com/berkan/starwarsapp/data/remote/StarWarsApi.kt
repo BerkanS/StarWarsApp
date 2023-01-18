@@ -1,11 +1,10 @@
 package com.berkan.starwarsapp.data.remote
 
 import com.berkan.starwarsapp.domain.model.PeopleResponse
-import com.berkan.starwarsapp.domain.model.Person
-import com.berkan.starwarsapp.domain.util.Resource
 import retrofit2.http.GET
+import retrofit2.http.Query
 
 interface StarWarsApi {
     @GET("people")
-    suspend fun getPeople(): PeopleResponse
+    suspend fun getPeople(@Query("page") page: Int): PeopleResponse
 }
