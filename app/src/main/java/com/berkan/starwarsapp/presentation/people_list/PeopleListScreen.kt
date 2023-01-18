@@ -24,7 +24,7 @@ import androidx.paging.LoadState
 import androidx.paging.compose.collectAsLazyPagingItems
 import androidx.paging.compose.items
 import com.berkan.starwarsapp.R
-import com.berkan.starwarsapp.domain.model.ListType
+import com.berkan.starwarsapp.presentation.util.ListType
 import com.berkan.starwarsapp.domain.model.Person
 import com.berkan.starwarsapp.domain.model.toJson
 import com.berkan.starwarsapp.presentation.util.Screen

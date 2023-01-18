@@ -20,7 +20,7 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.berkan.starwarsapp.R
-import com.berkan.starwarsapp.domain.model.ListType
+import com.berkan.starwarsapp.presentation.util.ListType
 import com.berkan.starwarsapp.presentation.people_detail.PeopleDetailScreen
 import com.berkan.starwarsapp.presentation.people_list.PeopleListScreen
 import com.berkan.starwarsapp.presentation.theme.StarWarsAppTheme
